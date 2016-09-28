@@ -6,6 +6,26 @@ fn add(num a, num b) num {
   return a+b
 }
 
+if 1 == 1 {
+
+}
+
+for num i = 1, 100 {
+
+}
+
+for i in <1, 2, 3> {
+  print i
+}
+
+foreach cat in cats {
+  print cat.meow()
+}
+
+while a != 1 {
+  a -= 1
+}
+
 num a = 100
 num b = +100
 num c = -100
@@ -19,32 +39,4 @@ str a = "this is a dq string"
 str b = "this is a string\nwith a return"
 str c = 'this is a sq string\n'
 str d = "This is also a
-string, its bted"
-
-
-
----
-what that compiles to
-function test()
-  print("hello")
-end
-
-function add(a, b)
-  return a+b
-end
-
-a = 100
-b = +100
-c = -100
-d = .3
-e = 0.3
-f = 2.3e1
-g = 5e+20
-h = 2.1e-39
-
-a = "this is a dq string"
-b = "this is a string\nwith a return"
-c = 'this is a sq string\n'
-d = [[This is also a
-string, its bted]]
----
+string, it has a newline in it"

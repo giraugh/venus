@@ -24,20 +24,45 @@ func (m Matcher) Replace(input string) string {
 
 const VARIABLENAME = "[a-zA-Z_]+(?:[a-zA-Z0-9_]*)"
 const TYPEKEY = "(num|str|bool|table|tbl)"
-
+const CONDITION = "((?:(?:\\S+(?: |\\t)*?(?:<|>|<=|>=|==|!=)?(?: |\\t)*?\\S*)(?:(?: |\\t)*?(?:&&|\\|\\|)?(?: |\\t)*?)?)+)"
 
 var matchers []Matcher
 func InitMatchers() {
+
+  /* BIG THINGS */
   //Comments
   matchers = append(matchers, *NewMatcher("---([\\s\\S]*)---", "--[[ $1 --]]"))
   //Typed Variables (remove type)
-  matchers = append(matchers, *NewMatcher(TYPEKEY"\\s*("+VARIABLENAME+")", "$2"))
+  matchers = append(matchers, *NewMatcher(TYPEKEY+"\\s*("+VARIABLENAME+")", "$2"))
+  //Functions
+  matchers = append(matchers, *NewMatcher("fn\\s("+VARIABLENAME+")\\s*(\\(.*\\))\\s*"+TYPEKEY+"?\\s*{", "function $1$2"))
+  //If statements
+  matchers = append(matchers, *NewMatcher("if\\s+"+CONDITION+"\\s*{", "if ($1) then"))
+  //While loops
+  matchers = append(matchers, *NewMatcher("while\\s+"+CONDITION+"\\s*{", "while ($1) do"))
+  //Numerical For
+  matchers = append(matchers, *NewMatcher("for\\s+("+VARIABLENAME+")\\s+=\\s+(.*),\\s*(.*)\\s*{", "for $1 = $2, $3 do"))
+  //Indexed For
+  matchers = append(matchers, *NewMatcher("for\\s+("+VARIABLENAME+")\\s+in\\s+(.*)\\s+{", "for $1,_ in ipairs($2) do"))
+  //Foreach
+  matchers = append(matchers, *NewMatcher("foreach\\s+("+VARIABLENAME+")\\s+in\\s+(.*)\\s+{", "for $1,_ in pairs($2) do"))
+  //Closing Brackets
+  matchers = append(matchers, *NewMatcher("}", "end"))
+
+  /* SMALL THINGS */
+  //+= and -=
+  matchers = append(matchers, *NewMatcher("("+VARIABLENAME+")\\s*(\\+|-)=", "$1 = $1 $2 "))
+  //++ and --
+  matchers = append(matchers, *NewMatcher("("+VARIABLENAME+")\\s*(?:(\\+)\\+|(-)-)", "$1 = $1 $2$3 1"))
+  //!= means ~=
+  matchers = append(matchers, *NewMatcher("!=", "~="))
 }
 
 var postMatchers []Matcher
 func InitPostMatchers() {
-  //strings with newlines in them
-  //postMatchers = append(postMatchers, *NewMatcher("(\"|')((?:\\\\1|(?:(?!\\1).|\\n))*)\\1", "[[$1]]"))
+  //Object Literals
+  postMatchers = append(postMatchers, *NewMatcher("<", "{"))
+  postMatchers = append(postMatchers, *NewMatcher(">", "}"))
 }
 
 
