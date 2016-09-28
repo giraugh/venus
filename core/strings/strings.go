@@ -1,8 +1,9 @@
-package strings
+package vstrings
 
 import (
 	"strconv"
 	"regexp"
+	"strings"
 )
 
 var RECLAIMSTRING = regexp.MustCompile("^([\\s\\S]*?)(!STR!([0-9]+)!STR!)([\\s\\S]*)$") //Has s/e anchors
@@ -39,8 +40,8 @@ func HideStrings(input string) (string, []string) {
 					if (!hasEscape) && (!hasInterp) && stringOpener == char{
 						isString = false
 						if hasEscape {hasEscape = false}
-						locBuff += char + "!STR!" + strconv.Itoa(len(sArr)) + "!STR!" + char
-						sArr = append(sArr, strBuff)
+						locBuff += "!STR!" + strconv.Itoa(len(sArr)) + "!STR!"
+						sArr = append(sArr, char+strBuff+char)
 						strBuff = "" //reset string buffer
 					} else {
 						strBuff += char
@@ -82,6 +83,9 @@ func ShowStrings(input string, sArr []string) (string, error) {
 		if RECLAIMSTRING.MatchString(local) == false {break}
 		id, err := strconv.Atoi(RECLAIMSTRING.ReplaceAllString(local, "$3"))
 		if err != nil {return "", err}
+		if strings.Contains(sArr[id], "\n") {
+			sArr[id] = "[[" + sArr[id][1:len(sArr[id])-1] + "]]"
+		}
 		get := "$1\020" + ESCAPEDOLLARS.ReplaceAllString(sArr[id],"$\020") + "$4"
 		local = RECLAIMSTRING.ReplaceAllString(local, get) //the $1 doesnt like to be next to a string, so we put the space char code in
 		local = REPLACE020.ReplaceAllString(local, "")
