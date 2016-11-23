@@ -6,10 +6,6 @@ function add(a, b)
   return a+b
 end
 
-if (1 == 1) then
-
-end
-
 for i = 1, 100  do
 
 end
@@ -25,6 +21,14 @@ end
 while (a ~= 1) do
   a = a -  1
 end
+
+while (true) do
+
+end
+
+test = {}
+test[#test+1] = "Hello!"
+test[#test+1] = "Hello Again!"
 
 a = 100
 b = +100

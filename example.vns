@@ -6,10 +6,6 @@ fn add(num a, num b) num {
   return a+b
 }
 
-if 1 == 1 {
-
-}
-
 for num i = 1, 100 {
 
 }
@@ -25,6 +21,14 @@ foreach cat in cats {
 while a != 1 {
   a -= 1
 }
+
+loop {
+
+}
+
+test = <>
+test[+] = "Hello!"
+test[&&+1] = "Hello Again!"
 
 num a = 100
 num b = +100
