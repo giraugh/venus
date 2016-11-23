@@ -26,6 +26,18 @@ while (true) do
 
 end
 
+if (a == 1) then
+  print ("a is 1")
+else
+  print ("a isnt 1")
+end
+
+if (a == 1) then
+  print ("a is 1")
+elseif (b == 2) then
+  print ("b is 2")
+end
+
 test = {}
 test[#test+1] = "Hello!"
 test[#test+1] = "Hello Again!"

@@ -59,6 +59,13 @@ func InitMatchers() {
   //Closing Brackets
   matchers = append(matchers, *NewMatcher("}", "end"))
 
+  //Else's
+  matchers = append(matchers, *NewMatcher("else\\s*{", "else"))
+  matchers = append(matchers, *NewMatcher("end\\s*else", "else"))
+
+  //Else If
+  matchers = append(matchers, *NewMatcher("", ""))
+
   //([^\\s\\n]*)\\[(.*)##(.*)\\]
 
   /* SMALL THINGS */
