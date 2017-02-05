@@ -1,0 +1,23 @@
+{
+  "name": "venus",
+  "version": "1.0.0",
+  "description": "parse venus lang",
+  "main": "venus.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/retroverse/Venus.git"
+  },
+  "keywords": [
+    "venus",
+    "parse"
+  ],
+  "author": "Ewan Breakey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/retroverse/Venus/issues"
+  },
+  "homepage": "https://github.com/retroverse/Venus#readme"
+}
