@@ -389,8 +389,8 @@ gofile = function(path) {
 }
 
 godir = function(path) {
-  fs.readFileSync(path, (err, p) => {
-    if (err) throw err
+  files = fs.readdirSync(path)
+  files.forEach(function(p) {
     if (/\.(ven|venus|vns)$/.test(p)) gofile(p)
   })
 }
