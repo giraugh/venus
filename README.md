@@ -8,19 +8,17 @@ ast before recompiling into lua.
   - Curly Brace Syntax (instead of `then` and `end`)
   - `foreach` keyword for iterating on objects
   - `+=`, `-=`, `*=`, `/=`, `^=`, `.=`, `++` and `--` operators
-  - `fn` instead of `function` (allows better functional programming)
+  - `fn` instead of `function` (for nicer lambdas)
 
 ### Language Features to come
-  - lambda functions (like arrow functions in js)
-  - support for `[+]` and `[##+1]` style table accesors.
-  - switch statement (using `goto` keyword)
+  - 'with' statement for better table construction and returning
 
 
 ### Compiler Features
   - Compiler REPL
   - Compile Single File
   - Compile all files in Directory
-  - Pass string
+  - Compile string
 
 ### License
 Licensed under [The MIT license](https://opensource.org/licenses/MIT)
