@@ -9,6 +9,7 @@ ast before recompiling into lua.
   - `foreach` keyword for iterating on objects
   - `+=`, `-=`, `*=`, `/=`, `^=`, `.=`, `++` and `--` operators
   - `fn` instead of `function` (for nicer lambdas)
+  - `##` instead of `--` for comments
 
 ### Language Features to come
   - 'with' statement for better table construction and returning
