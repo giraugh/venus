@@ -1,11 +1,8 @@
 {
   "name": "venus",
   "version": "1.0.0",
-  "description": "parse venus lang",
-  "main": "venus.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "Parser for an alternative lua language.",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/retroverse/Venus.git"
@@ -19,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/retroverse/Venus/issues"
   },
-  "homepage": "https://github.com/retroverse/Venus#readme"
+  "homepage": "https://github.com/retroverse/Venus#readme",
+  "dependencies": {
+    "fs-extra": "^4.0.2",
+    "klaw": "^2.1.0",
+    "klaw-sync": "^3.0.0"
+  }
 }
