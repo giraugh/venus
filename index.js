@@ -67,12 +67,12 @@ const compileDirectorySyncWith = (path, f) => {
 
 const compileDirectoryAsync = (path) => {
   klaw(path)
-    .on('data', ({path, stats}) => compileFileAsync(path))
+    .on('data', ({path, stats}) => stats.isDirectory() ? null : compileFileAsync(path))
 }
 
 const compileDirectoryAsyncWith = (path, f) => {
   klaw(path)
-    .on('data', ({path, stats}) => compileFileAsyncWith(path, f))
+    .on('data', ({path, stats}) => stats.isDirectory() ? null : compileFileAsyncWith(path, f))
 }
 
 module.exports = {
