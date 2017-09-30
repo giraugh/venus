@@ -25,18 +25,26 @@ const compileStringAsTree = (str) => {
 }
 
 const compileFileSync = (path) => {
-  let text = fs.readFileSync(path, 'utf-8')
-  let compiledText = compileString(text)
-  let compFilename = path.replace(/\.\w+$, '.lua'/)
-  fs.writeFileSync(compFilename, compiledText)
+  compileFileSyncWith(path, (compFilename, compiledText) => fs.writeFileSync(compFilename, compiledText))
 }
 
-const compileFileAsync = (path) => {
+const compileFileAsyncWith = (path, f) => {
   fs.readFile(path, 'utf-8').then(text => {
     let compiledText = compileString(text)
     let compFilename = path.replace(/\.\w+$, '.lua'/)
-    return fs.writeFile(compFilename, compiledText)
+    f(compFilename, compiledText)
   })
+}
+
+const compileFileSyncWith = (path, f) => {
+  let text = fs.readFileSync(path, 'utf-8')
+  let compiledText = compileString(text)
+  let compFilename = path.replace(/\.\w+$, '.lua'/)
+  f(compFilename, compiledText)
+}
+
+const compileFileAsync = (path) => {
+  compileFileAsyncWith(path, (compFilename, compiledText) => fs.writeFile(compFilename, compiledText))
 }
 
 const compileDirectorySync = (path) => {
@@ -44,9 +52,19 @@ const compileDirectorySync = (path) => {
     .on('data', ({path, stats}) => compileFileSync(path))
 }
 
+const compileDirectorySyncWith = (path, f) => {
+  klawSync(path)
+    .on('data', ({path, stats}) => compileFileSyncWith(path, f))
+}
+
 const compileDirectoryAsync = (path) => {
   klaw(path)
-    .on('data', ({path, stats}) => compileFileSync(path))
+    .on('data', ({path, stats}) => compileFileAsync(path))
+}
+
+const compileDirectoryAsyncWith = (path, f) => {
+  klaw(path)
+    .on('data', ({path, stats}) => compileFileAsyncWith(path, f))
 }
 
 module.exports = {
@@ -54,7 +72,11 @@ module.exports = {
   compileString,
   compileStringAsTree,
   compileFileSync,
+  compileFileSyncWith,
   compileFileAsync,
+  compileFileAsyncWith,
   compileDirectorySync,
-  compileDirectoryAsync
+  compileDirectorySyncWith,
+  compileDirectoryAsync,
+  compileDirectoryAsyncWith
 }
