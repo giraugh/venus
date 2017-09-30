@@ -31,15 +31,16 @@ const compileFileSync = (path) => {
 const compileFileAsyncWith = (path, f) => {
   fs.readFile(path, 'utf-8').then(text => {
     let compiledText = compileString(text)
-    let compFilename = path.replace(/\.\w+$, '.lua'/)
+    let compFilename = path.replace(/\.\w+$/, '.lua')
     f(compFilename, compiledText)
   })
+  .catch(err => { throw err })
 }
 
 const compileFileSyncWith = (path, f) => {
   let text = fs.readFileSync(path, 'utf-8')
   let compiledText = compileString(text)
-  let compFilename = path.replace(/\.\w+$, '.lua'/)
+  let compFilename = path.replace(/\.\w+$/, '.lua')
   f(compFilename, compiledText)
 }
 
@@ -48,13 +49,17 @@ const compileFileAsync = (path) => {
 }
 
 const compileDirectorySync = (path) => {
-  klawSync(path)
-    .on('data', ({path, stats}) => compileFileSync(path))
+  /*
+    #TODO
+    let files = klawSync(path)
+  */
 }
 
 const compileDirectorySyncWith = (path, f) => {
-  klawSync(path)
-    .on('data', ({path, stats}) => compileFileSyncWith(path, f))
+  /*
+    #TODO
+    let files = klawSync(path)
+  */
 }
 
 const compileDirectoryAsync = (path) => {
