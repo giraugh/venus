@@ -4,6 +4,7 @@ const reconstruct = require('./src/reconstruct.js')
 const fs = require('fs-extra')
 const klaw = require('klaw')
 const klawSync = require('klaw-sync')
+const {extname} = require('path')
 
 const compileString = (str) => {
   // Pre-compile aliases
@@ -67,17 +68,28 @@ const compileDirectorySyncWith = (path, f) => {
 
 const isVenusFile = (path, stats) => {
   if (stats.isDirectory()) { return false }
-  return path.replace(/\.\w+$/, '.venus') === path
+  return extname(path) === '.venus'
 }
 
 const compileDirectoryAsync = (path) => {
   klaw(path)
-    .on('data', ({path, stats}) => isVenusFile(path, stats) ? null : compileFileAsync(path))
+    .on('data', ({path, stats}) => {
+      if (isVenusFile(path, stats)) {
+        console.log(path)
+        compileFileAsync(path)
+          .catch(err => console.error(err))
+      }
+    })
 }
 
 const compileDirectoryAsyncWith = (path, f) => {
   klaw(path)
-    .on('data', ({path, stats}) => isVenusFile(path, stats) ? null : compileFileAsyncWith(path, f))
+    .on('data', ({path, stats}) => {
+      if (isVenusFile(path, stats)) {
+        compileFileAsyncWith(path, f)
+          .catch(err => console.error(err))
+      }
+    })
 }
 
 module.exports = {
