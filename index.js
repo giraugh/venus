@@ -67,7 +67,7 @@ const compileDirectorySyncWith = (path, f) => {
 
 const isVenusFile = (path, stats) => {
   if (!stats.isDirectory()) { return false }
-  return path.replace(/\.\w+$/, '.lua') !== path
+  return path.replace(/\.\w+$/, '.venus') === path
 }
 
 const compileDirectoryAsync = (path) => {
