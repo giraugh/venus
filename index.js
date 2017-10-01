@@ -65,14 +65,19 @@ const compileDirectorySyncWith = (path, f) => {
   )
 }
 
+const isVenusFile = (path, stats) => {
+  if (!stats.isDirectory()) { return false }
+  return path.replace(/\.\w+$/, '.lua') !== path
+}
+
 const compileDirectoryAsync = (path) => {
   klaw(path)
-    .on('data', ({path, stats}) => stats.isDirectory() ? null : compileFileAsync(path))
+    .on('data', ({path, stats}) => isVenusFile(path, stats) ? null : compileFileAsync(path))
 }
 
 const compileDirectoryAsyncWith = (path, f) => {
   klaw(path)
-    .on('data', ({path, stats}) => stats.isDirectory() ? null : compileFileAsyncWith(path, f))
+    .on('data', ({path, stats}) => isVenusFile(path, stats) ? null : compileFileAsyncWith(path, f))
 }
 
 module.exports = {
