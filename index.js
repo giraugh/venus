@@ -35,7 +35,6 @@ const compileFileAsyncWith = (path, f) => {
     let compFilename = path.replace(/\.\w+$/, '.lua')
     f(compFilename, compiledText)
   })
-  .catch(err => { throw err })
 }
 
 const compileFileSyncWith = (path, f) => {
@@ -45,24 +44,10 @@ const compileFileSyncWith = (path, f) => {
   f(compFilename, compiledText)
 }
 
-const compileFileAsync = (path) => {
+const compileFileAsync = (path, error) => {
   return compileFileAsyncWith(path, (compFilename, compiledText) =>
     fs.writeFile(compFilename, compiledText)
-    .catch(err => { throw err })
-  )
-}
-
-const compileDirectorySync = (path) => {
-  let files = klawSync(path)
-  files.forEach((path) =>
-    compileFileSync(path)
-  )
-}
-
-const compileDirectorySyncWith = (path, f) => {
-  let files = klawSync(path)
-  files.forEach((path) =>
-    compileFileSyncWith(path, f)
+    .catch(err => error ? error(err, path) : console.error(err))
   )
 }
 
@@ -71,23 +56,41 @@ const isVenusFile = (path, stats) => {
   return extname(path) === '.venus'
 }
 
-const compileDirectoryAsync = (path) => {
+const compileDirectorySync = (path) => {
+  let files = klawSync(path, {nodir: true})
+  files.filter(
+    ({path, stats}) => isVenusFile(path, stats)
+  ).forEach(({path, stats}) =>
+    compileFileSync(path)
+  )
+}
+
+const compileDirectorySyncWith = (path, f) => {
+  let files = klawSync(path, {nodir: true})
+  files.filter(
+    ({path, stats}) => isVenusFile(path, stats)
+  ).forEach(({path, stats}) =>
+    compileFileSyncWith(path, f)
+  )
+}
+
+const compileDirectoryAsync = (path, error) => {
   klaw(path)
     .on('data', ({path, stats}) => {
       if (isVenusFile(path, stats)) {
         console.log(path)
         compileFileAsync(path)
-          .catch(err => console.error(err))
+          .catch(err => error ? error(err, path) : console.error(err))
       }
     })
 }
 
-const compileDirectoryAsyncWith = (path, f) => {
+const compileDirectoryAsyncWith = (path, f, error) => {
   klaw(path)
     .on('data', ({path, stats}) => {
       if (isVenusFile(path, stats)) {
         compileFileAsyncWith(path, f)
-          .catch(err => console.error(err))
+          .catch(err => error ? error(err, path) : console.error(err))
       }
     })
 }
