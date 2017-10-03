@@ -259,6 +259,10 @@ module.exports = (ast) => {
       code += x.raw
     }
 
+    if (x.type === 'VarargLiteral') {
+      code += x.raw
+    }
+
     if (x.type === 'NilLiteral') {
       code += x.raw
     }
