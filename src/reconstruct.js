@@ -259,8 +259,22 @@ module.exports = (ast) => {
       code += x.raw
     }
 
+    if (x.type === 'NilLiteral') {
+      code += x.raw
+    }
+
     if (x.type === 'NumericLiteral') {
       code += x.raw
+    }
+
+    if (x.type === 'BooleanLiteral') {
+      code += x.raw
+    }
+
+    if (x.type === 'MemberExpression') {
+      rnode(x.base)
+      code += x.indexer
+      rnode(x.identifier)
     }
 
     if (x.type === 'BinaryExpression') {

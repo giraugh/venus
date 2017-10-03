@@ -17,6 +17,16 @@ const compileString = (str) => {
   return reconstruct(ast)
 }
 
+const getAstJSON = (str) => {
+  // Pre-compile aliases
+  let pre = regexParse(str)
+
+  // Compile venus to make lua AST
+  let ast = parse(pre)
+
+  return JSON.stringify(ast, null, 4)
+}
+
 const compileStringAsTree = (str) => {
   // Pre-compile aliases
   let pre = regexParse(str)
@@ -106,5 +116,6 @@ module.exports = {
   compileDirectorySync,
   compileDirectorySyncWith,
   compileDirectoryAsync,
-  compileDirectoryAsyncWith
+  compileDirectoryAsyncWith,
+  getAstJSON
 }
