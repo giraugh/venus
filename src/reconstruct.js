@@ -289,6 +289,13 @@ module.exports = (ast) => {
       if (x.inParens) code += ')'
     }
 
+    if (x.type === 'UnaryExpression') {
+      if (x.inParens) code += '('
+      code += ' ' + x.operator + ' '
+      rnode(x.argument)
+      if (x.inParens) code += ')'
+    }
+
     if (x.type === 'LogicalExpression') {
       if (x.inParens) code += '('
       rnode(x.left)
