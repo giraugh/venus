@@ -1,3 +1,3 @@
 const venus = require('./index.js')
-venus.compileDirectorySync('./test')
-console.log('done')
+venus.compileDirectoryAsync('./test')
+  .catch(({error, path}) => console.error(error + ' in ' + path))
