@@ -65,7 +65,10 @@ module.exports = (ast) => {
 
     if (x.type === 'ReturnStatement') {
       write('return ')
-      x.arguments.forEach(rnode)
+      x.arguments.forEach((par, i) => {
+        rnode(par)
+        if (i !== x.arguments.length - 1) code += ', '
+      })
     }
 
     if (x.type === 'CallStatement') {
