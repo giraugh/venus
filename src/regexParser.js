@@ -17,6 +17,6 @@ module.exports = (a) => {
     /foreach\s+((?:[a-zA-Z_]){1}[a-zA-Z_0-9]*),\s*((?:[a-zA-Z_]){1}[a-zA-Z_0-9]*)\s+in\s+((?:[a-zA-Z_]){1}[a-zA-Z_0-9]*)/g,
     'for $1, $2 in pairs($3)'
   )
-  a = a.replace(/foreach\s+((?:[a-zA-Z_]){1}[a-zA-Z_0-9]*)\s+in\s+((?:[a-zA-Z_]){1}[a-zA-Z_0-9]*)/g, 'for _, $1 in pairs($2)')
+  a = a.replace(/foreach\s+((?:[a-zA-Z_]){1}[a-zA-Z_0-9]*)\s+in\s+([^\s]+)/g, 'for _, $1 in pairs($2)')
   return a
 }
