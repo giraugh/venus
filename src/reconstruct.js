@@ -320,6 +320,16 @@ module.exports = (ast) => {
       code += ')'
     }
 
+    if (x.type === 'StringCallExpression') {
+      // base
+      rnode(x.base)
+
+      // arguments
+      code += '('
+      rnode(x.argument)
+      code += ')'
+    }
+
     if (x.type === 'IndexExpression') {
       rnode(x.base)
       code += '['
