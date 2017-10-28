@@ -120,7 +120,9 @@ module.exports = (ast) => {
       })
 
       // middle
-      code += ' = '
+      if (x.init.length) {
+        code += ' = '
+      }
 
       // Init
       x.init.forEach((par, i) => {
