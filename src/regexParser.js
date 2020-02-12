@@ -4,6 +4,7 @@ module.exports = (a) => {
   a = a.replace(/fn/g, 'function')
   a = a.replace(/\(([^()[\]*+-]*)\)\s*=>\s*{/g, 'function ($1) {')
   a = a.replace(/!=/g, '~=')
+  a = a.replace(/}\s*elseif\s*/g, ' elseif ')
   a = a.replace(/}\s*else\s*{/g, ' else ')
   a = a.replace(/([a-zA-Z_0-9.()[\]#]+)\s*\+=\s*([a-zA-Z_0-9.()[\]#]+)/g, '$1 = $1 + $2')
   a = a.replace(/([a-zA-Z_0-9.()[\]#]+)\s*-=\s*([a-zA-Z_0-9.()[\]#]+)/g, '$1 = $1 - $2')
