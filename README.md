@@ -3,6 +3,9 @@
 ___A 'go' like language that compiles into lua.___
 The parsing part of this package was originally forked from ['luaparse'](https://oxyc.github.io/luaparse/).
 
+### Disclaimer:
+Venus is not actively supported and not suitable for use in production. Instead, try [MoonScript](https://github.com/leafo/moonscript).
+
 ### Language Features
   - Curly Brace Syntax (instead of `then` and `end`)
   - `foreach` keyword for iterating on objects
